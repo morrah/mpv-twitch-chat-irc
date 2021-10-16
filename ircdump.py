@@ -1,5 +1,4 @@
 import sys
-import time
 import pathlib
 import socket
 import ssl
@@ -12,6 +11,7 @@ def main():
     dumpfile = pathlib.Path(__file__).parent.joinpath(f'{channel}.txt')
     connect_and_dump_loop(dumpfile, channel)
 
+
 def ssl_socket(server, port):
     context = ssl.create_default_context(purpose=ssl.Purpose.CLIENT_AUTH)
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -19,11 +19,11 @@ def ssl_socket(server, port):
     ssock.connect((server, port))
     return ssock
 
+
 def connect_and_dump_loop(dumpfile, channel, server='irc.chat.twitch.tv', port=6697):
     name_postfix = ''.join([str(i) for i in random.sample(range(0, 9), 3)])
     USERNAME = f'justinfan{name_postfix}'
     PASSWORD = 'kappa'
-    comments_counter = 0
     comments = []
     
     if not channel.startswith('#'):
@@ -53,17 +53,19 @@ def connect_and_dump_loop(dumpfile, channel, server='irc.chat.twitch.tv', port=6
             with open(dumpfile, 'w', encoding='utf-8') as f:
                 f.write(f'{subtitle}\n')
 
+
 def send_cmd(conn, cmd, message):
     command = '{} {}\r\n'.format(cmd, message).encode('utf-8')
     print(f'>> {command}')
     conn.send(command)
+
 
 # https://stackoverflow.com/a/930706
 def parsemsg(s):
     prefix = ''
     trailing = []
     if not s:
-       return None
+        return None
     if s[0] == ':':
         prefix, s = s[1:].split(' ', 1)
     if s.find(' :') != -1:
