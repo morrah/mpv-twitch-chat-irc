@@ -13,9 +13,9 @@ def main():
 
 
 def ssl_socket(server, port):
-    context = ssl.create_default_context(purpose=ssl.Purpose.CLIENT_AUTH)
+    context = ssl.create_default_context(purpose=ssl.Purpose.SERVER_AUTH)
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    ssock = context.wrap_socket(sock)
+    ssock = context.wrap_socket(sock, server_hostname='irc.chat.twitch.tv')
     ssock.connect((server, port))
     return ssock
 
